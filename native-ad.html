@@ -1,8 +1,61 @@
 <!DOCTYPE html>
 <html>
-<head><meta charset="UTF-8"></head>
-<body style="margin:0;padding:0;">
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+    }
+
+    .scroll-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 10px;
+      padding: 10px;
+      box-sizing: border-box;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .ad-box {
+      flex: 0 0 auto;
+      width: 300px;
+      height: 250px;
+      border: 1px solid #ccc;
+      background: #fff;
+    }
+  </style>
+</head>
+<body>
+  <div class="scroll-container">
+    <!-- Ad 1 -->
+    <div class="ad-box" id="ad-slot-1"></div>
+
+    <!-- Ad 2 -->
+    <div class="ad-box" id="ad-slot-2"></div>
+
+    <!-- Ad 3 -->
+    <div class="ad-box" id="ad-slot-3"></div>
+  </div>
+
   <script async="async" data-cfasync="false" src="//stallsobservance.com/55bd0119beed62c3dd53dbf1f316dc95/invoke.js"></script>
-<div id="container-55bd0119beed62c3dd53dbf1f316dc95"></div>
+  <script>
+    // Inject ads into each ad box manually
+    window.onload = function () {
+      if (typeof window['__cmp'] === 'undefined') {
+        const ids = ["ad-slot-1", "ad-slot-2", "ad-slot-3"];
+        ids.forEach(id => {
+          const adDiv = document.getElementById(id);
+          const cloned = document.getElementById("container-55bd0119beed62c3dd53dbf1f316dc95");
+          if (cloned && adDiv) {
+            adDiv.innerHTML = cloned.innerHTML;
+          }
+        });
+        // Hide the original container (if it's injected)
+        const original = document.getElementById("container-55bd0119beed62c3dd53dbf1f316dc95");
+        if (original) original.style.display = "none";
+      }
+    };
+  </script>
 </body>
 </html>
