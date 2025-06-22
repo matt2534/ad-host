@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -26,35 +26,48 @@
       border: 1px solid #ccc;
       background: #fff;
     }
+
+    /* Hide the ad network's default injection container */
+    #container-55bd0119beed62c3dd53dbf1f316dc95 {
+      display: none;
+    }
   </style>
 </head>
 <body>
+  <!-- Required for stallsobservance to inject its content -->
+  <div id="container-55bd0119beed62c3dd53dbf1f316dc95"></div>
+
+  <!-- Horizontal scroll promo boxes -->
   <div class="scroll-container">
     <div class="promo-box" id="promo-1"></div>
     <div class="promo-box" id="promo-2"></div>
     <div class="promo-box" id="promo-3"></div>
   </div>
 
-  <!-- Load the external script -->
+  <!-- Load external ad script -->
   <script async data-cfasync="false" src="//stallsobservance.com/55bd0119beed62c3dd53dbf1f316dc95/invoke.js"></script>
 
-  <!-- Wait for the script to populate the default container, then clone its contents -->
+  <!-- Clone ad content into scroll boxes -->
   <script>
     window.addEventListener("load", function () {
       const original = document.getElementById("container-55bd0119beed62c3dd53dbf1f316dc95");
 
-      if (!original) return;
+      // Ensure ad content has loaded
+      const tryInject = setInterval(() => {
+        if (!original || original.innerHTML.trim() === "") return;
 
-      const boxes = ["promo-1", "promo-2", "promo-3"];
-      boxes.forEach((id) => {
-        const box = document.getElementById(id);
-        if (box && original.innerHTML.trim() !== "") {
-          box.innerHTML = original.innerHTML;
-        }
-      });
+        const boxes = ["promo-1", "promo-2", "promo-3"];
+        boxes.forEach((id) => {
+          const box = document.getElementById(id);
+          if (box) {
+            box.innerHTML = original.innerHTML;
+          }
+        });
 
-      // Optional: hide the original container if it's present
-      original.style.display = "none";
+        // Hide original ad container and stop interval
+        original.style.display = "none";
+        clearInterval(tryInject);
+      }, 200);
     });
   </script>
 </body>
