@@ -1,11 +1,13 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <title>Native Content Scroll</title>
   <style>
     body {
       margin: 0;
       padding: 0;
+      font-family: sans-serif;
     }
 
     .scroll-container {
@@ -17,7 +19,7 @@
       -webkit-overflow-scrolling: touch;
     }
 
-    .ad-box {
+    .promo-box {
       flex: 0 0 auto;
       width: 300px;
       height: 250px;
@@ -28,34 +30,32 @@
 </head>
 <body>
   <div class="scroll-container">
-    <!-- Ad 1 -->
-    <div class="ad-box" id="ad-slot-1"></div>
-
-    <!-- Ad 2 -->
-    <div class="ad-box" id="ad-slot-2"></div>
-
-    <!-- Ad 3 -->
-    <div class="ad-box" id="ad-slot-3"></div>
+    <div class="promo-box" id="promo-1"></div>
+    <div class="promo-box" id="promo-2"></div>
+    <div class="promo-box" id="promo-3"></div>
   </div>
 
-  <script async="async" data-cfasync="false" src="//stallsobservance.com/55bd0119beed62c3dd53dbf1f316dc95/invoke.js"></script>
+  <!-- Load the external script -->
+  <script async data-cfasync="false" src="//stallsobservance.com/55bd0119beed62c3dd53dbf1f316dc95/invoke.js"></script>
+
+  <!-- Wait for the script to populate the default container, then clone its contents -->
   <script>
-    // Inject ads into each ad box manually
-    window.onload = function () {
-      if (typeof window['__cmp'] === 'undefined') {
-        const ids = ["ad-slot-1", "ad-slot-2", "ad-slot-3"];
-        ids.forEach(id => {
-          const adDiv = document.getElementById(id);
-          const cloned = document.getElementById("container-55bd0119beed62c3dd53dbf1f316dc95");
-          if (cloned && adDiv) {
-            adDiv.innerHTML = cloned.innerHTML;
-          }
-        });
-        // Hide the original container (if it's injected)
-        const original = document.getElementById("container-55bd0119beed62c3dd53dbf1f316dc95");
-        if (original) original.style.display = "none";
-      }
-    };
+    window.addEventListener("load", function () {
+      const original = document.getElementById("container-55bd0119beed62c3dd53dbf1f316dc95");
+
+      if (!original) return;
+
+      const boxes = ["promo-1", "promo-2", "promo-3"];
+      boxes.forEach((id) => {
+        const box = document.getElementById(id);
+        if (box && original.innerHTML.trim() !== "") {
+          box.innerHTML = original.innerHTML;
+        }
+      });
+
+      // Optional: hide the original container if it's present
+      original.style.display = "none";
+    });
   </script>
 </body>
 </html>
